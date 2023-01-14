@@ -36,7 +36,7 @@ class FhcCalendarWidget extends StatefulWidget {
     this.monthYearWidgetHanlder,
     this.weekdaysHandler,
     this.weekdaysWidget,
-    this.locale = 'vi',
+    this.locale = 'en',
   }) : super(key: key);
   final ValueChanged<DateTime>? onTap;
   final TextStyle? textStyle;
