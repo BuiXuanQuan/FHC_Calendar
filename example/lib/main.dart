@@ -5,6 +5,7 @@ import 'package:fhc_calendar/fhc_calendar_list.dart';
 import 'package:fhc_calendar/fhc_calendar_widget.dart';
 import 'package:fhc_calendar/widget/back_next_widget/go_back_widget.dart';
 import 'package:fhc_calendar/widget/back_next_widget/next_widget.dart';
+import 'package:fhc_calendar/widget/calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,8 +44,9 @@ class MyApp extends StatelessWidget {
               FhcCalendarList(
                 fhcCalendarArg: FhcCalendarArg(
                     tickWidget: Container(
-                        margin: const EdgeInsets.only(top: 10, left: 4),
-                        child: Assets.tick.svg(width: 10, height: 10)),
+                      margin: const EdgeInsets.only(top: 10, left: 4),
+                      child: Assets.tick.svg(width: 10, height: 10),
+                    ),
                     lsMonth: [
                       MonthObject(
                         month: 'Tháng 1',
@@ -96,6 +98,41 @@ class MyApp extends StatelessWidget {
                       ),
                     ]),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              CalendarView(
+                  dateTime: DateTime(
+                    DateTime.now().year,
+                    1,
+                    1,
+                  ),
+                  weekdayTitle: WeekDaysTitle(),
+                  monthObject: MonthObject(
+                    month: 'Tháng 1',
+                    lsCalendarStatus: List.generate(
+                      31,
+                      (index) {
+                        return CalendarStatus(
+                          chosen: (index == 4 ||
+                                  index == 3 ||
+                                  index == 0 ||
+                                  index == 27 ||
+                                  index == 26)
+                              ? true
+                              : false,
+                          tick: (index == 27 || index == 26) ? true : false,
+                        );
+                      },
+                    ),
+                  ),
+                  fhcCalendarArg: FhcCalendarArg(
+                    boxDecorationCalendarView: BoxDecoration(),
+                    containMonth: false,
+                    tickWidget: Container(
+                        margin: const EdgeInsets.only(top: 10, left: 22),
+                        child: Assets.tick.svg(width: 10, height: 10)),
+                  )),
             ],
           ),
         ),

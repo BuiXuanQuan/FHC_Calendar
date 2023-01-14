@@ -1,7 +1,7 @@
 name: fhc_calendar
-description: A new Flutter package project.
+description: Customize calendar as beautiful as you expected.
 version: 0.0.1
-homepage: git@github.com:BuiXuanQuan/FHC_Calendar.git
+homepage: https://github.com/BuiXuanQuan/FHC_Calendar
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
@@ -24,4 +24,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-

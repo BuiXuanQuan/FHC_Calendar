@@ -113,7 +113,7 @@ class FhcCalendarArg {
     this.runSpacing = 12,
     this.year,
     this.height,
-    required this.lsMonth,
+     this.lsMonth = const [],
     this.monthTextStyle,
     this.physics,
     this.boxDecorationCalendarView,
