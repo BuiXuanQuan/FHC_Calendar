@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:fhc_calendar/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fhc_calendar/fhc_calendar_list.dart';
@@ -29,7 +28,7 @@ class CalendarViewItem extends StatelessWidget {
     }
     return Expanded(
       child: Stack(
-        children: [
+        children: <Widget>[
           Container(
             width: double.infinity,
             padding: fhcCalendarArg?.paddingOfItemDay,
@@ -53,10 +52,7 @@ class CalendarViewItem extends StatelessWidget {
                       : fhcCalendarArg?.textStyle,
             ),
           ),
-          if (calendarStatus?.tick == true)
-            Container(
-              margin:const EdgeInsets.only(top: 10,left: 4),
-              child: Assets.tick.svg(width: 10, height: 10))
+          if (calendarStatus?.tick == true) fhcCalendarArg!.tickWidget
         ],
       ),
     );

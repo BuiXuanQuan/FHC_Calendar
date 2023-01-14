@@ -26,9 +26,7 @@ class _FhcCalendarListState extends State<FhcCalendarList> {
   FhcCalendarArg get _fhcCalendarArg => widget.fhcCalendarArg;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
+    return  SingleChildScrollView(
         physics: _fhcCalendarArg.physics,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -62,14 +60,14 @@ class _FhcCalendarListState extends State<FhcCalendarList> {
             );
           }),
         ),
-      ),
+      
     );
   }
 }
 
 class FhcCalendarArg {
   final Widget? weekdaysWidget;
-  final Widget? tickWidget;
+  final Widget tickWidget;
   final double width;
   final double spacing;
   final double runSpacing;
@@ -94,7 +92,7 @@ class FhcCalendarArg {
   FhcCalendarArg( {
     this.containMonth = true,
     this.weekdaysHandler,
-    this.tickWidget,
+  required  this.tickWidget,
     this.tickTextStyle = const TextStyle(color: Colors.black, fontSize: 10),
     this.textStyle = const TextStyle(color: Colors.black, fontSize: 10),
     this.chosenTextStyle = const TextStyle(color: Colors.black, fontSize: 10),

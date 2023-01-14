@@ -12,6 +12,7 @@ import 'package:fhc_calendar/widget/week_day_title.dart';
 
 import 'fhc_calendar_list.dart';
 import 'widget/calendar/calendar.dart';
+
 class FhcCalendarWidget extends StatefulWidget {
   const FhcCalendarWidget({
     Key? key,
@@ -72,78 +73,74 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocProvider(
-        create: (BuildContext context) {
-          if (widget.startDate != null) {
-            return CalendarBloc()
-              ..initDateTime(
-                  year: widget.startDate!.year, month: widget.startDate!.month);
-          }
-          return CalendarBloc();
-        },
-        child: Center(
-          child: Column(
-            children: [
-              widget.setTimeWidget ?? _setTimeWidget(),
-              SizedBox(
-                height: widget.spaceBetweenSetTimeAndCalendar,
-              ),
-              BlocBuilder<CalendarBloc, CalendarState>(
-                  builder: (context, state) {
-                return ExpandablePageView(
-                  physics: widget.physics,
-                  onPageChanged: (index) {
-                    if (index > state.swipeIndex) {
-                      context.read<CalendarBloc>().incrementMonth(
-                          currentMonth: state.month, currentYear: state.year);
-                    } else {
-                      context.read<CalendarBloc>().decrementMonth(
-                          currentMonth: state.month, currentYear: state.year);
-                    }
+    return BlocProvider(
+      create: (BuildContext context) {
+        if (widget.startDate != null) {
+          return CalendarBloc()
+            ..initDateTime(
+                year: widget.startDate!.year, month: widget.startDate!.month);
+        }
+        return CalendarBloc();
+      },
+      child: Center(
+        child: Column(
+          children: [
+            widget.setTimeWidget ?? _setTimeWidget(),
+            SizedBox(
+              height: widget.spaceBetweenSetTimeAndCalendar,
+            ),
+            BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
+              return ExpandablePageView(
+                physics: widget.physics,
+                onPageChanged: (index) {
+                  if (index > state.swipeIndex) {
+                    context.read<CalendarBloc>().incrementMonth(
+                        currentMonth: state.month, currentYear: state.year);
+                  } else {
+                    context.read<CalendarBloc>().decrementMonth(
+                        currentMonth: state.month, currentYear: state.year);
+                  }
 
-                    context
-                        .read<CalendarBloc>()
-                        .changeSwipeIndex(swipeIndex: index);
-                  },
-                  children: List.generate(lengthPageView, (index) {
-                    return BlocBuilder<CalendarBloc, CalendarState>(
-                        builder: (context, state) {
-                      return Calendar(
-                        selectedBoxDecorationOfItemDay:
-                            widget.selectedBoxDecorationOfItemDay,
-                        boxDecorationOfItemDay: widget.boxDecorationOfItemDay,
-                        selectedTextStyle: widget.selectedTextStyle,
-                        textStyle: widget.textStyle,
-                        paddingOfItemDay: widget.paddingOfItemDay,
-                        marginOfItemDay: widget.marginOfItemDay,
-                        selectedDay: state.selectedDateTime?.day,
-                        dateTime: widget.dateTime ??
-                            DateTime(state.year, state.month, 1),
-                        weekdayTitle: widget.weekdaysWidget ??
-                            WeekDaysTitle(
-                              weekdaysHandler: widget.weekdaysHandler,
-                            ),
-                        onTap: (dateTime) {
-                          if (dateTime.day == state.selectedDateTime?.day) {
-                            context
-                                .read<CalendarBloc>()
-                                .selectedDate(selectedDateTime: null);
-                          } else {
-                            context
-                                .read<CalendarBloc>()
-                                .selectedDate(selectedDateTime: dateTime);
-                          }
-                          widget.onTap?.call(dateTime);
-                        },
-                      );
-                    });
-                  }),
-                );
-              }),
-            ],
-          ),
+                  context
+                      .read<CalendarBloc>()
+                      .changeSwipeIndex(swipeIndex: index);
+                },
+                children: List.generate(lengthPageView, (index) {
+                  return BlocBuilder<CalendarBloc, CalendarState>(
+                      builder: (context, state) {
+                    return Calendar(
+                      selectedBoxDecorationOfItemDay:
+                          widget.selectedBoxDecorationOfItemDay,
+                      boxDecorationOfItemDay: widget.boxDecorationOfItemDay,
+                      selectedTextStyle: widget.selectedTextStyle,
+                      textStyle: widget.textStyle,
+                      paddingOfItemDay: widget.paddingOfItemDay,
+                      marginOfItemDay: widget.marginOfItemDay,
+                      selectedDay: state.selectedDateTime?.day,
+                      dateTime: widget.dateTime ??
+                          DateTime(state.year, state.month, 1),
+                      weekdayTitle: widget.weekdaysWidget ??
+                          WeekDaysTitle(
+                            weekdaysHandler: widget.weekdaysHandler,
+                          ),
+                      onTap: (dateTime) {
+                        if (dateTime.day == state.selectedDateTime?.day) {
+                          context
+                              .read<CalendarBloc>()
+                              .selectedDate(selectedDateTime: null);
+                        } else {
+                          context
+                              .read<CalendarBloc>()
+                              .selectedDate(selectedDateTime: dateTime);
+                        }
+                        widget.onTap?.call(dateTime);
+                      },
+                    );
+                  });
+                }),
+              );
+            }),
+          ],
         ),
       ),
     );
