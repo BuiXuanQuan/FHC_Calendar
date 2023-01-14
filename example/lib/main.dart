@@ -37,7 +37,10 @@ class MyApp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const FhcCalendarWidget(),
+             const Padding(
+                padding:  EdgeInsets.all(8.0),
+                child:  FhcCalendarWidget(),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
                     ),
                     lsMonth: [
                       MonthObject(
-                        month: 'Tháng 1',
+                        month: 'January',
                         lsCalendarStatus: List.generate(31, (index) {
                           return CalendarStatus(
                             chosen: index == 4 || index == 5 ? true : false,
@@ -63,7 +66,7 @@ class MyApp extends StatelessWidget {
                         }),
                       ),
                       MonthObject(
-                        month: 'Tháng 2',
+                        month: 'February',
                         lsCalendarStatus: List.generate(
                           31,
                           (index) {
@@ -81,7 +84,7 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                       MonthObject(
-                        month: 'Tháng 3',
+                        month: 'March',
                         lsCalendarStatus: List.generate(31, (index) {
                           return CalendarStatus(
                             tick: (index == 1 || index == 2) ? true : false,
@@ -89,7 +92,7 @@ class MyApp extends StatelessWidget {
                         }),
                       ),
                       MonthObject(
-                        month: 'Tháng 4',
+                        month: 'April',
                         lsCalendarStatus: List.generate(31, (index) {
                           return CalendarStatus(
                             tick: (index == 6 || index == 7) ? true : false,
@@ -101,38 +104,44 @@ class MyApp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              CalendarView(
-                  dateTime: DateTime(
-                    DateTime.now().year,
-                    1,
-                    1,
-                  ),
-                  weekdayTitle: WeekDaysTitle(),
-                  monthObject: MonthObject(
-                    month: 'Tháng 1',
-                    lsCalendarStatus: List.generate(
-                      31,
-                      (index) {
-                        return CalendarStatus(
-                          chosen: (index == 4 ||
-                                  index == 3 ||
-                                  index == 0 ||
-                                  index == 27 ||
-                                  index == 26)
-                              ? true
-                              : false,
-                          tick: (index == 27 || index == 26) ? true : false,
-                        );
-                      },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CalendarView(
+                    dateTime: DateTime(
+                      DateTime.now().year,
+                      1,
+                      1,
                     ),
-                  ),
-                  fhcCalendarArg: FhcCalendarArg(
-                    boxDecorationCalendarView: BoxDecoration(),
-                    containMonth: false,
-                    tickWidget: Container(
-                        margin: const EdgeInsets.only(top: 10, left: 22),
-                        child: Assets.tick.svg(width: 10, height: 10)),
-                  )),
+                    weekdayTitle: WeekDaysTitle(),
+                    monthObject: MonthObject(
+                      month: 'Tháng 1',
+                      lsCalendarStatus: List.generate(
+                        31,
+                        (index) {
+                          return CalendarStatus(
+                            chosen: (index == 4 ||
+                                    index == 3 ||
+                                    index == 0 ||
+                                    index == 27 ||
+                                    index == 26)
+                                ? true
+                                : false,
+                            tick: (index == 27 || index == 26) ? true : false,
+                          );
+                        },
+                      ),
+                    ),
+                    fhcCalendarArg: FhcCalendarArg(
+                      boxDecorationCalendarView: const BoxDecoration(),
+                      containMonth: false,
+                      tickWidget: Container(
+                          margin: const EdgeInsets.only(top: 10, left: 22),
+                          child: Assets.tick.svg(width: 10, height: 10)),
+                    )),
+              ),
+               const SizedBox(
+                height: 28,
+              ),
             ],
           ),
         ),

@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:fhc_calendar/widget/back_next_widget/go_back_widget.dart';
@@ -34,6 +36,7 @@ class FhcCalendarWidget extends StatefulWidget {
     this.monthYearWidgetHanlder,
     this.weekdaysHandler,
     this.weekdaysWidget,
+    this.locale = 'vi',
   }) : super(key: key);
   final ValueChanged<DateTime>? onTap;
   final TextStyle? textStyle;
@@ -53,6 +56,8 @@ class FhcCalendarWidget extends StatefulWidget {
   final double spaceBetweenSetTimeAndCalendar;
   final MonthYearWidgetHanlder? monthYearWidgetHanlder;
   final WeekdaysHandler? weekdaysHandler;
+  final String? locale;
+
   @override
   State<FhcCalendarWidget> createState() => _FhcCalendarWidgetState();
 }
@@ -61,10 +66,17 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
   int lengthPageView = 1;
   MonthYearWidgetHanlder? get _monthYearWidgetHanlder =>
       widget.monthYearWidgetHanlder;
+  late String languageTag;
+  late DateFormat _dateYearFormat;
+  late DateFormat _dateMonthFormat;
 
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting();
+    _dateMonthFormat = DateFormat('MMMM', widget.locale);
+    _dateYearFormat = DateFormat('y', widget.locale);
+
     if (widget.physics != const NeverScrollableScrollPhysics()) {
       lengthPageView = CalendarBloc.calculateMonthsDifference(
           widget.startDate ?? DateTime(2000), widget.endDate ?? DateTime(2100));
@@ -152,8 +164,11 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
       children: [
         BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
           return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              const SizedBox(
+                width: 28,
+              ),
               GoBackWidget(
                 goBackWidget: _monthYearWidgetHanlder?.goBackForYear,
                 onGoBack: () {
@@ -162,9 +177,16 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
                       .decrementYear(currentYear: state.year);
                 },
               ),
-              Text(
-                '${widget.year} ${state.year}',
-                style: _monthYearWidgetHanlder?.yearTextStyle,
+              Expanded(
+                child: Center(
+                  child: Text(
+                    widget.locale == 'vi'
+                        ? "Năm ${state.year}"
+                        : _dateYearFormat
+                            .format(DateTime(state.year, state.month)),
+                    style: _monthYearWidgetHanlder?.yearTextStyle,
+                  ),
+                ),
               ),
               NextWidget(
                 nextWidget: _monthYearWidgetHanlder?.nextForYear,
@@ -174,6 +196,9 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
                       .incrementYear(currentYear: state.year);
                 },
               ),
+              const SizedBox(
+                width: 28,
+              ),
             ],
           );
         }),
@@ -182,8 +207,11 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
         ),
         BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
           return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              SizedBox(
+                width: 28,
+              ),
               GoBackWidget(
                 goBackWidget: _monthYearWidgetHanlder?.goBackForMonth,
                 onGoBack: () {
@@ -191,9 +219,13 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
                       currentMonth: state.month, currentYear: state.year);
                 },
               ),
-              Text(
-                '${widget.month} ${state.month}',
-                style: _monthYearWidgetHanlder?.monthTextStyle,
+              Expanded(
+                child: Center(
+                  child: Text(
+                    _dateMonthFormat.format(DateTime(state.year, state.month)),
+                    style: _monthYearWidgetHanlder?.monthTextStyle,
+                  ),
+                ),
               ),
               NextWidget(
                 nextWidget: _monthYearWidgetHanlder?.nextForMonth,
@@ -201,6 +233,9 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
                   context.read<CalendarBloc>().incrementMonth(
                       currentMonth: state.month, currentYear: state.year);
                 },
+              ),
+              SizedBox(
+                width: 28,
               ),
             ],
           );
