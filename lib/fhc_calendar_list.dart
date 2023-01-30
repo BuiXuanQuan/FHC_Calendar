@@ -126,7 +126,7 @@ class MonthObject {
   final List<CalendarStatus> lsCalendarStatus;
 
   MonthObject({
-    required this.month,
+    this.month = '',
     required this.lsCalendarStatus,
   });
 }

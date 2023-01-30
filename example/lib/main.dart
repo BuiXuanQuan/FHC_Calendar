@@ -114,7 +114,7 @@ class MyApp extends StatelessWidget {
                     ),
                     weekdayTitle: WeekDaysTitle(),
                     monthObject: MonthObject(
-                      month: 'Tháng 1',
+                      month: 'January',
                       lsCalendarStatus: List.generate(
                         31,
                         (index) {

@@ -162,86 +162,94 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const SizedBox(
-                width: 28,
-              ),
-              GoBackWidget(
-                goBackWidget: _monthYearWidgetHanlder?.goBackForYear,
-                onGoBack: () {
-                  context
-                      .read<CalendarBloc>()
-                      .decrementYear(currentYear: state.year);
-                },
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    widget.locale == 'vi'
-                        ? "Năm ${state.year}"
-                        : _dateYearFormat
-                            .format(DateTime(state.year, state.month)),
-                    style: _monthYearWidgetHanlder?.yearTextStyle,
-                  ),
-                ),
-              ),
-              NextWidget(
-                nextWidget: _monthYearWidgetHanlder?.nextForYear,
-                onNext: () {
-                  context
-                      .read<CalendarBloc>()
-                      .incrementYear(currentYear: state.year);
-                },
-              ),
-              const SizedBox(
-                width: 28,
-              ),
-            ],
-          );
-        }),
-        const SizedBox(
-          height: 5,
+        _buildYear(),
+         SizedBox(
+          height: _monthYearWidgetHanlder?.spaceBetweenMonthAndYear ?? 5,
         ),
-        BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 28,
-              ),
-              GoBackWidget(
-                goBackWidget: _monthYearWidgetHanlder?.goBackForMonth,
-                onGoBack: () {
-                  context.read<CalendarBloc>().decrementMonth(
-                      currentMonth: state.month, currentYear: state.year);
-                },
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    _dateMonthFormat.format(DateTime(state.year, state.month)),
-                    style: _monthYearWidgetHanlder?.monthTextStyle,
-                  ),
-                ),
-              ),
-              NextWidget(
-                nextWidget: _monthYearWidgetHanlder?.nextForMonth,
-                onNext: () {
-                  context.read<CalendarBloc>().incrementMonth(
-                      currentMonth: state.month, currentYear: state.year);
-                },
-              ),
-              SizedBox(
-                width: 28,
-              ),
-            ],
-          );
-        }),
+        _buildMonth(),
       ],
     );
+  }
+
+  BlocBuilder<CalendarBloc, CalendarState> _buildMonth() {
+    return BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: _monthYearWidgetHanlder?.marginBackNextForMonth ?? 28,
+            ),
+            GoBackWidget(
+              goBackWidget: _monthYearWidgetHanlder?.goBackForMonth,
+              onGoBack: () {
+                context.read<CalendarBloc>().decrementMonth(
+                    currentMonth: state.month, currentYear: state.year);
+              },
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  _dateMonthFormat.format(DateTime(state.year, state.month)),
+                  style: _monthYearWidgetHanlder?.monthTextStyle,
+                ),
+              ),
+            ),
+            NextWidget(
+              nextWidget: _monthYearWidgetHanlder?.nextForMonth,
+              onNext: () {
+                context.read<CalendarBloc>().incrementMonth(
+                    currentMonth: state.month, currentYear: state.year);
+              },
+            ),
+            SizedBox(
+              width: _monthYearWidgetHanlder?.marginBackNextForMonth ?? 28,
+            ),
+          ],
+        );
+      });
+  }
+
+  BlocBuilder<CalendarBloc, CalendarState> _buildYear() {
+    return BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+             SizedBox(
+              width: _monthYearWidgetHanlder?.marginBackNextForYear ?? 28,
+            ),
+            GoBackWidget(
+              goBackWidget: _monthYearWidgetHanlder?.goBackForYear,
+              onGoBack: () {
+                context
+                    .read<CalendarBloc>()
+                    .decrementYear(currentYear: state.year);
+              },
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  widget.locale == 'vi'
+                      ? "Năm ${state.year}"
+                      : _dateYearFormat
+                          .format(DateTime(state.year, state.month)),
+                  style: _monthYearWidgetHanlder?.yearTextStyle,
+                ),
+              ),
+            ),
+            NextWidget(
+              nextWidget: _monthYearWidgetHanlder?.nextForYear,
+              onNext: () {
+                context
+                    .read<CalendarBloc>()
+                    .incrementYear(currentYear: state.year);
+              },
+            ),
+             SizedBox(
+              width:_monthYearWidgetHanlder?.marginBackNextForYear ??  28,
+            ),
+          ],
+        );
+      });
   }
 }
 
@@ -252,8 +260,15 @@ class MonthYearWidgetHanlder {
   final Widget? nextForMonth;
   final TextStyle? monthTextStyle;
   final TextStyle? yearTextStyle;
+  final double? marginBackNextForMonth;
+  final double? marginBackNextForYear;
+    final double? spaceBetweenMonthAndYear;
+
 
   MonthYearWidgetHanlder({
+    this.spaceBetweenMonthAndYear, 
+    this.marginBackNextForMonth,
+    this.marginBackNextForYear,
     this.monthTextStyle,
     this.yearTextStyle,
     this.goBackForYear,
