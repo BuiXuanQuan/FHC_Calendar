@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-             const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child:  FhcCalendarWidget(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: FhcCalendarWidget(),
               ),
               const SizedBox(
                 height: 20,
@@ -109,8 +109,8 @@ class MyApp extends StatelessWidget {
                 child: CalendarView(
                     dateTime: DateTime(
                       DateTime.now().year,
-                      1,
-                      1,
+                      DateTime.now().month,
+                    DateTime.now().day,
                     ),
                     weekdayTitle: WeekDaysTitle(),
                     monthObject: MonthObject(
@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
                           child: Assets.tick.svg(width: 10, height: 10)),
                     )),
               ),
-               const SizedBox(
+              const SizedBox(
                 height: 28,
               ),
             ],

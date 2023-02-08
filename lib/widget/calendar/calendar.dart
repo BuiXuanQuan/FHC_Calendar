@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class Calendar extends StatelessWidget {
-  Calendar({super.key, 
+  Calendar({
+    super.key,
     required this.weekdayTitle,
     this.onTap,
     required this.dateTime,
@@ -30,7 +31,7 @@ class Calendar extends StatelessWidget {
   final BoxDecoration? boxDecorationOfItemDay;
   int? dayUpdate;
   int dayForFirstRow = 0;
-  DateTime myDateAfterPlus = DateTime.now();
+  DateTime myDateAfterPlus = DateTime.now().subtract(const Duration(days: 30));
   final maxRowsNumber = 5;
 
   @override
@@ -44,6 +45,7 @@ class Calendar extends StatelessWidget {
   List<Widget> _buildListOfRow(
     BuildContext context,
   ) {
+    // log('day time :${dateTime}');
     var firstWeekday = dateTime.weekday;
     final List<Widget> rows = <Widget>[];
     rows.add(weekdayTitle);
@@ -76,7 +78,6 @@ class Calendar extends StatelessWidget {
   }) {
     List<Widget> widget = [];
     myDateAfterPlus = dateTimeDefault;
-
     for (int i = 0; i < 7; i++) {
       // checking when month is 12
       if (myDateAfterPlus.day == 1) {

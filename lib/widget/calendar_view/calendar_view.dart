@@ -23,7 +23,7 @@ class CalendarView extends StatelessWidget {
 
   int? dayUpdate;
   int dayForFirstRow = 0;
-  DateTime myDateAfterPlus = DateTime.now();
+  DateTime myDateAfterPlus = DateTime.now().subtract(const Duration(days: 31));
   final maxRowsNumber = 5;
   List<CalendarStatus> get _lsCalendarStatusUpdate =>
       monthObject.lsCalendarStatus;
