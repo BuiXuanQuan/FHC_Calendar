@@ -36,7 +36,7 @@ class CalendarViewItem extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
             decoration: calendarStatus?.tick == true
                 ? fhcCalendarArg?.tickBoxDecorationOfItemDay
-                    .copyWith(color: const Color(0xFFE4D6B8).withOpacity(0.5))
+                // .copyWith(color: const Color(0xFFE4D6B8).withOpacity(0.5))
                 : calendarStatus?.chosen == true
                     ? fhcCalendarArg?.chosenBoxDecorationOfItemDay
                     : (fhcCalendarArg?.boxDecorationOfItemDay ??
@@ -46,13 +46,17 @@ class CalendarViewItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: calendarStatus?.tick == true
                   ? fhcCalendarArg?.tickTextStyle
-                      .copyWith(color: const Color(0xFF263238).withOpacity(0.5))
+                  // .copyWith(color: const Color(0xFF263238).withOpacity(0.5))
                   : calendarStatus?.chosen == true
                       ? fhcCalendarArg?.chosenTextStyle
                       : fhcCalendarArg?.textStyle,
             ),
           ),
-          if (calendarStatus?.tick == true) fhcCalendarArg!.tickWidget
+          if (calendarStatus?.tick == true)
+            Align(
+              alignment: Alignment.center,
+              child: fhcCalendarArg!.tickWidget,
+            )
         ],
       ),
     );

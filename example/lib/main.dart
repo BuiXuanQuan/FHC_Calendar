@@ -1,20 +1,11 @@
-import 'dart:developer';
-
-import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:fhc_calendar/fhc_calendar_list.dart';
 import 'package:fhc_calendar/fhc_calendar_widget.dart';
-import 'package:fhc_calendar/widget/back_next_widget/go_back_widget.dart';
-import 'package:fhc_calendar/widget/back_next_widget/next_widget.dart';
 import 'package:fhc_calendar/widget/calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:fhc_calendar/bloc/calendar_bloc.dart';
-import 'package:fhc_calendar/bloc/calendar_state.dart';
 import 'package:fhc_calendar/widget/week_day_title.dart';
 
 import 'gen/assets.gen.dart';
-import 'main.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'FHC Calendar',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('FHC Calendar Demo'),
+          title: const Text('FHC Calendar Demo'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -110,7 +101,7 @@ class MyApp extends StatelessWidget {
                     dateTime: DateTime(
                       DateTime.now().year,
                       DateTime.now().month,
-                    DateTime.now().day,
+                      DateTime.now().day,
                     ),
                     weekdayTitle: WeekDaysTitle(),
                     monthObject: MonthObject(
