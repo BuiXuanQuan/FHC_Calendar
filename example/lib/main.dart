@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: FhcCalendarWidget(),
+                child: FhcCalendarWidget(dateTime: DateTime.now(),),
               ),
               const SizedBox(
                 height: 20,

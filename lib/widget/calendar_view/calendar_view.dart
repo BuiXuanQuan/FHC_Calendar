@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fhc_calendar/fhc_calendar_list.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +64,7 @@ class CalendarView extends StatelessWidget {
   List<Widget> _buildListOfRow(
     BuildContext context,
   ) {
-    var firstWeekday = dateTime.weekday;
+    var firstWeekday = dateTime.copyWith(day: 1).weekday;
     final List<Widget> rows = <Widget>[];
     rows.add(weekdayTitle);
 

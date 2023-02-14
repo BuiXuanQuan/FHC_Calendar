@@ -83,6 +83,7 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
     }
   }
 
+  DateTime? get _dateTime => widget.dateTime;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -129,8 +130,9 @@ class _FhcCalendarWidgetState extends State<FhcCalendarWidget> {
                       paddingOfItemDay: widget.paddingOfItemDay,
                       marginOfItemDay: widget.marginOfItemDay,
                       selectedDay: state.selectedDateTime?.day,
-                      dateTime: widget.dateTime ??
-                          DateTime(state.year, state.month, DateTime(state.year,state.month).day),
+                      dateTime: _dateTime != null
+                          ? DateTime(_dateTime!.year, _dateTime!.month, 1)
+                          : DateTime(state.year, state.month, 1),
                       weekdayTitle: widget.weekdaysWidget ??
                           WeekDaysTitle(
                             weekdaysHandler: widget.weekdaysHandler,
