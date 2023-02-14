@@ -45,7 +45,6 @@ class Calendar extends StatelessWidget {
   List<Widget> _buildListOfRow(
     BuildContext context,
   ) {
-    // log('day time :${dateTime}');
     var firstWeekday = dateTime.weekday;
     final List<Widget> rows = <Widget>[];
     rows.add(weekdayTitle);
@@ -115,7 +114,6 @@ class Calendar extends StatelessWidget {
     int weekday = 0,
     required DateTime dateTimeDefault,
   }) {
-    log('dateTimeDefault: ${dateTimeDefault}');
     List<Widget> widget = [];
     int day = 0;
     for (int i = 0; i < 7; i++) {
