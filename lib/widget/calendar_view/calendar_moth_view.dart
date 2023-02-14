@@ -1,61 +1,33 @@
-import 'package:fhc_calendar/fhc_calendar_list.dart';
 import 'package:flutter/material.dart';
 
 import 'calendar_view_item.dart';
 
-// ignore: must_be_immutable
-class CalendarView extends StatelessWidget {
-  CalendarView({
-    super.key,
-    required this.fhcCalendarArg,
-    required this.monthObject,
-    required this.dateTime,
-    required this.weekdayTitle,
-  });
+typedef BuildItemCalendar<T> = Widget Function(
+    BuildContext context, DateTime data);
 
-  final MonthObject monthObject;
+// ignore: must_be_immutable
+class CalendarMothView extends StatelessWidget {
+  CalendarMothView(
+      {super.key,
+      required this.dateTime,
+      required this.weekdayTitle,
+      required this.itemCalendarBuilder});
+
   final DateTime dateTime;
   final Widget weekdayTitle;
-  final FhcCalendarArg fhcCalendarArg;
+  final BuildItemCalendar itemCalendarBuilder;
 
   int? dayUpdate;
   int dayForFirstRow = 0;
   DateTime myDateAfterPlus = DateTime.now().subtract(const Duration(days: 31));
   final maxRowsNumber = 5;
-  List<CalendarStatus> get _lsCalendarStatusUpdate =>
-      monthObject.lsCalendarStatus;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
-      decoration: fhcCalendarArg.boxDecorationCalendarView ??
-          BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          if (fhcCalendarArg.containMonth) ...[
-            Text(
-              monthObject.month,
-              style: fhcCalendarArg.monthTextStyle,
-            ),
-            SizedBox(
-              height: fhcCalendarArg.spaceBetweenMonthAndCalendar ?? 4,
-            ),
-          ],
-          ..._buildListOfRow(context),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        ..._buildListOfRow(context),
+      ],
     );
   }
 
@@ -68,9 +40,7 @@ class CalendarView extends StatelessWidget {
 
     rows.add(
       _buildFirstRow(
-        weekday: firstWeekday,
-        dateTimeDefault: dateTime,
-      ),
+          weekday: firstWeekday, dateTimeDefault: dateTime, context: context),
     );
 
     DateTime date = DateTime(dateTime.year, dateTime.month, dayForFirstRow + 1);
@@ -106,10 +76,7 @@ class CalendarView extends StatelessWidget {
       if (myDateAfterPlus.month > dateTimeDefault.month) {
         widget.add(CalendarViewItem());
       } else {
-        widget.add(CalendarViewItem(
-            lsCalendarStatus: _lsCalendarStatusUpdate,
-            date: myDateAfterPlus,
-            fhcCalendarArg: fhcCalendarArg));
+        widget.add(itemCalendarBuilder.call(context, myDateAfterPlus));
       }
 
       myDateAfterPlus = myDateAfterPlus.add(const Duration(days: 1));
@@ -123,10 +90,10 @@ class CalendarView extends StatelessWidget {
     );
   }
 
-  Widget _buildFirstRow({
-    int weekday = 0,
-    required DateTime dateTimeDefault,
-  }) {
+  Widget _buildFirstRow(
+      {int weekday = 0,
+      required DateTime dateTimeDefault,
+      required BuildContext context}) {
     List<Widget> widget = [];
     int day = 0;
     for (int i = 0; i < 7; i++) {
@@ -134,12 +101,7 @@ class CalendarView extends StatelessWidget {
         final dividedNumber = i - weekday;
         day = dividedNumber + 2;
         final date = DateTime(dateTimeDefault.year, dateTimeDefault.month, day);
-        widget.add(CalendarViewItem(
-          isFirstRow: true,
-          lsCalendarStatus: _lsCalendarStatusUpdate,
-          date: date,
-          fhcCalendarArg: fhcCalendarArg,
-        ));
+        widget.add(itemCalendarBuilder.call(context, date));
       } else {
         widget.add(CalendarViewItem());
       }
