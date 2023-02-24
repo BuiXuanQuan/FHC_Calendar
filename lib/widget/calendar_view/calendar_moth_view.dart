@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'calendar_view_item.dart';
 
 typedef BuildItemCalendar<T> = Widget Function(
-    BuildContext context, DateTime data);
+    BuildContext context, DateTime date);
 
 // ignore: must_be_immutable
 class CalendarMothView extends StatelessWidget {
