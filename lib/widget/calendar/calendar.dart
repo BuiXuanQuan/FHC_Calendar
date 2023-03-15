@@ -1,7 +1,6 @@
-import 'dart:developer';
+import 'package:fhc_calendar/extension.dart';
 import 'package:fhc_calendar/widget/calendar/calendar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class Calendar extends StatelessWidget {
@@ -31,7 +30,8 @@ class Calendar extends StatelessWidget {
   final BoxDecoration? boxDecorationOfItemDay;
   int? dayUpdate;
   int dayForFirstRow = 0;
-  DateTime myDateAfterPlus = DateTime.now().subtract(const Duration(days: 30));
+  DateTime myDateAfterPlus =
+      DateTime.now().subtract(Duration(days: DateTime.now().daysInMonth()));
   final maxRowsNumber = 5;
 
   @override
@@ -60,12 +60,12 @@ class Calendar extends StatelessWidget {
       if (dayUpdate != null) {
         date = DateTime(dateTime.year, dateTime.month, dayUpdate!);
       }
-      if (myDateAfterPlus.month <= date.month && myDateAfterPlus.day != 1) {
+      // if (myDateAfterPlus.month <= date.month && myDateAfterPlus.day != 1) {
         rows.add(_buildRow(
           dateTimeDefault: date,
           context: context,
         ));
-      }
+      // }
     }
 
     return rows;

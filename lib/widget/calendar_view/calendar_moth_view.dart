@@ -1,9 +1,10 @@
+import 'package:fhc_calendar/extension.dart';
 import 'package:flutter/material.dart';
 
 import 'calendar_view_item.dart';
 
 typedef BuildItemCalendar<T> = Widget Function(
-    BuildContext context, DateTime data);
+    BuildContext context, DateTime date);
 
 // ignore: must_be_immutable
 class CalendarMothView extends StatelessWidget {
@@ -19,7 +20,8 @@ class CalendarMothView extends StatelessWidget {
 
   int? dayUpdate;
   int dayForFirstRow = 0;
-  DateTime myDateAfterPlus = DateTime.now().subtract(const Duration(days: 31));
+  DateTime myDateAfterPlus =
+      DateTime.now().subtract(Duration(days: DateTime.now().daysInMonth()));
   final maxRowsNumber = 5;
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CalendarMothView extends StatelessWidget {
   List<Widget> _buildListOfRow(
     BuildContext context,
   ) {
-    var firstWeekday = dateTime.weekday;
+    var firstWeekday = dateTime.copyWith(day: 1).weekday;
     final List<Widget> rows = <Widget>[];
     rows.add(weekdayTitle);
 
@@ -49,12 +51,12 @@ class CalendarMothView extends StatelessWidget {
       if (dayUpdate != null) {
         date = DateTime(dateTime.year, dateTime.month, dayUpdate!);
       }
-      if (myDateAfterPlus.month <= date.month && myDateAfterPlus.day != 1) {
+      // if (myDateAfterPlus.month <= date.month && myDateAfterPlus.day != 1) {
         rows.add(_buildRow(
           dateTimeDefault: date,
           context: context,
         ));
-      }
+      // }
     }
 
     return rows;
